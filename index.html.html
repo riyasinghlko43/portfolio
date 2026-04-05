@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Riya Singh — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --cream: #1e1a14;
+    --ink: #f0ead8;
+    --rust: #e07840;
+    --muted: #a89880;
+    --pale: #2a231a;
+    --line: rgba(240,234,216,0.14);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 1000; opacity: 0.5;
+  }
+
+  nav {
+    position: fixed; left: 0; top: 0; bottom: 0;
+    width: 60px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    border-right: 1px solid var(--line);
+    z-index: 50; gap: 32px;
+    background: #1e1a14;
+  }
+
+  nav a {
+    writing-mode: vertical-rl;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--muted);
+    text-decoration: none; transition: color 0.3s;
+  }
+  nav a:hover { color: var(--rust); }
+
+  main { margin-left: 60px; }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+  }
+
+  .hero-left {
+    padding: 80px 60px;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    border-right: 1px solid var(--line);
+  }
+
+  .hero-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--rust); margin-bottom: 24px;
+    opacity: 0; animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  .hero-name {
+    font-size: clamp(60px, 8vw, 120px);
+    font-weight: 700; line-height: 0.9; letter-spacing: -0.02em;
+    opacity: 0; animation: fadeUp 1s ease forwards 0.4s;
+  }
+  .hero-name em { font-style: italic; color: var(--rust); }
+
+  .hero-tagline {
+    margin-top: 40px; font-size: 18px; font-weight: 300;
+    color: var(--muted); line-height: 1.6; max-width: 380px;
+    opacity: 0; animation: fadeUp 0.8s ease forwards 0.7s;
+  }
+
+  .hero-contacts {
+    margin-top: 48px; display: flex; gap: 24px; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 0.8s ease forwards 0.9s;
+  }
+  .hero-contacts a {
+    font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.15em;
+    color: var(--ink); text-decoration: none;
+    border-bottom: 1px solid var(--line); padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .hero-contacts a:hover { color: var(--rust); border-color: var(--rust); }
+
+  .hero-right {
+    padding: 80px 60px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    position: relative;
+  }
+
+  .hero-index {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase;
+  }
+
+  .hero-stats {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+    background: var(--line); border: 1px solid var(--line);
+    opacity: 0; animation: fadeUp 0.8s ease forwards 1.1s;
+  }
+
+  .stat-box { background: var(--cream); padding: 32px 28px; }
+  .stat-num { font-size: 52px; font-weight: 300; line-height: 1; color: var(--rust); }
+  .stat-label {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-top: 8px;
+  }
+
+  .hero-deco {
+    position: absolute; bottom: -20px; right: 30px;
+    font-size: 200px; font-weight: 300; color: var(--line);
+    line-height: 1; pointer-events: none; user-select: none; font-style: italic;
+  }
+
+  /* SECTIONS */
+  section {
+    border-bottom: 1px solid var(--line);
+    padding: 80px 60px; position: relative;
+  }
+
+  .section-header {
+    display: flex; align-items: baseline; gap: 24px; margin-bottom: 60px;
+  }
+
+  .section-num {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    letter-spacing: 0.2em; color: var(--rust);
+  }
+
+  .section-title {
+    font-size: clamp(32px, 4vw, 56px); font-weight: 700; letter-spacing: -0.02em;
+  }
+  .section-title em { font-style: italic; color: var(--rust); }
+
+  /* EDUCATION */
+  .edu-card { border: 1px solid var(--line); padding: 48px; max-width: 700px; }
+  .edu-degree { font-size: 28px; font-weight: 700; line-height: 1.3; }
+  .edu-uni { font-size: 18px; font-style: italic; color: var(--muted); margin-top: 12px; }
+  .edu-meta { display: flex; gap: 32px; margin-top: 28px; flex-wrap: wrap; }
+  .edu-pill {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--rust); border: 1px solid var(--rust); padding: 6px 16px;
+  }
+
+  /* SKILLS */
+  .skills-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1px; background: var(--line); border: 1px solid var(--line);
+  }
+
+  .skill-category {
+    background: var(--cream); padding: 32px 28px; transition: background 0.3s;
+  }
+  .skill-category:hover { background: var(--pale); }
+
+  .skill-cat-label {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.3em; text-transform: uppercase; color: var(--rust); margin-bottom: 16px;
+  }
+
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .tag {
+    font-size: 14px; font-weight: 300; color: var(--ink);
+    border: 1px solid var(--line); padding: 4px 12px;
+    transition: border-color 0.2s;
+  }
+  .skill-category:hover .tag { border-color: var(--rust); }
+
+  /* EXPERIENCE */
+  .exp-item {
+    display: grid; grid-template-columns: 200px 1fr; gap: 40px;
+    padding: 40px 0; border-top: 1px solid var(--line);
+  }
+
+  .exp-period {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    letter-spacing: 0.1em; color: var(--muted);
+  }
+  .exp-company { font-size: 20px; font-weight: 700; margin-top: 8px; }
+  .exp-role { font-size: 14px; font-style: italic; color: var(--muted); margin-top: 4px; }
+
+  .exp-points { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .exp-points li {
+    font-size: 17px; font-weight: 300; line-height: 1.6;
+    padding-left: 20px; position: relative; color: var(--ink);
+  }
+  .exp-points li::before { content: '—'; position: absolute; left: 0; color: var(--rust); }
+
+  /* PROJECTS */
+  .projects-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1px; background: var(--line); border: 1px solid var(--line);
+  }
+
+  .project-card {
+    background: var(--cream); padding: 40px 36px;
+    transition: background 0.3s; position: relative; overflow: hidden;
+  }
+  .project-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--rust); transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .project-card:hover { background: var(--pale); }
+  .project-card:hover::before { transform: scaleX(1); }
+
+  .proj-num {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.2em; color: var(--muted);
+  }
+  .proj-title { font-size: 24px; font-weight: 700; margin: 12px 0; line-height: 1.2; }
+  .proj-stack {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.15em; color: var(--rust); margin-bottom: 20px;
+  }
+  .proj-desc { font-size: 16px; font-weight: 300; line-height: 1.65; color: var(--ink); }
+
+  /* CERTIFICATIONS */
+  .cert-list { display: flex; flex-direction: column; }
+  .cert-item {
+    display: flex; align-items: center; gap: 24px;
+    padding: 28px 0; border-top: 1px solid var(--line);
+    transition: padding-left 0.3s;
+  }
+  .cert-item:hover { padding-left: 12px; }
+  .cert-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--rust); flex-shrink: 0; }
+  .cert-name { font-size: 20px; font-weight: 700; }
+
+  /* CONTACT */
+  #contact { min-height: 40vh; display: flex; flex-direction: column; justify-content: center; border-bottom: none; }
+  .contact-big {
+    font-size: clamp(40px, 6vw, 90px); font-weight: 700;
+    letter-spacing: -0.02em; line-height: 1; margin-bottom: 48px;
+  }
+  .contact-big em { font-style: italic; color: var(--rust); }
+
+  .contact-links { display: flex; gap: 40px; flex-wrap: wrap; }
+  .contact-link { display: flex; flex-direction: column; gap: 6px; }
+  .contact-link span {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted);
+  }
+  .contact-link a {
+    font-size: 18px; font-weight: 300; color: var(--ink); text-decoration: none;
+    border-bottom: 1px solid var(--line); transition: color 0.2s, border-color 0.2s;
+  }
+  .contact-link a:hover { color: var(--rust); border-color: var(--rust); }
+
+  .footer-bar {
+    margin-top: 80px; padding-top: 24px; border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.15em; color: var(--muted);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--cream); }
+  ::-webkit-scrollbar-thumb { background: var(--rust); }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { display: none; }
+    main { margin-left: 0; }
+    #hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 60px 28px 40px; border-right: none; border-bottom: 1px solid var(--line); }
+    .hero-right { padding: 40px 28px 60px; }
+    section { padding: 60px 28px; }
+    .exp-item { grid-template-columns: 1fr; gap: 20px; }
+    .hero-deco { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#hero">Home</a>
+  <a href="#skills">Skills</a>
+  <a href="#experience">Exp</a>
+  <a href="#projects">Work</a>
+  <a href="#certifications">Certs</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<main>
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-left">
+      <div class="hero-label">Software Engineer &amp; Cloud Architect</div>
+      <h1 class="hero-name">Riya<br><em>Singh</em></h1>
+      <p class="hero-tagline">
+        Full-stack developer with expertise in cloud computing, Salesforce, and machine learning — building scalable enterprise applications from Lucknow to the cloud.
+      </p>
+      <div class="hero-contacts">
+        <a href="mailto:riyasinghlko43@gmail.com">riyasinghlko43@gmail.com</a>
+        <a href="tel:+918299378724">+91 82993 78724</a>
+        <a href="https://linkedin.com/in/riya-singh-795377250" target="_blank">LinkedIn ↗</a>
+        <a href="https://github.com/riyasinghlko43" target="_blank">GitHub ↗</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-index">Portfolio — 2024 / 26</div>
+      <div class="hero-stats">
+        <div class="stat-box">
+          <div class="stat-num">8.56</div>
+          <div class="stat-label">CGPA at VIT</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">4+</div>
+          <div class="stat-label">Live Projects</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">4</div>
+          <div class="stat-label">Certifications</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">95%</div>
+          <div class="stat-label">CV Accuracy</div>
+        </div>
+      </div>
+      <div class="hero-deco">RS</div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="section-header reveal">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Edu<em>cation</em></h2>
+    </div>
+    <div class="edu-card reveal">
+      <div class="edu-degree">Bachelor of Technology<br>Computer Science Engineering</div>
+      <div class="edu-uni">Vellore Institute of Technology</div>
+      <div class="edu-meta">
+        <div class="edu-pill">Dec 2022 – Jul 2026</div>
+        <div class="edu-pill">CGPA: 8.56 / 10</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-header reveal">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Sk<em>ills</em></h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-category reveal">
+        <div class="skill-cat-label">Programming</div>
+        <div class="skill-tags">
+          <span class="tag">Python</span><span class="tag">Java</span>
+          <span class="tag">JavaScript</span><span class="tag">C++</span><span class="tag">SQL</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-label">Frontend</div>
+        <div class="skill-tags">
+          <span class="tag">React.js</span><span class="tag">HTML5</span><span class="tag">CSS3</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-label">Backend</div>
+        <div class="skill-tags">
+          <span class="tag">Flask</span><span class="tag">Node.js</span>
+          <span class="tag">Express.js</span><span class="tag">RESTful API</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-label">Database</div>
+        <div class="skill-tags">
+          <span class="tag">MySQL</span><span class="tag">MongoDB</span>
+          <span class="tag">SQLite</span><span class="tag">Oracle</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-label">Cloud</div>
+        <div class="skill-tags">
+          <span class="tag">AWS EC2</span><span class="tag">AWS S3</span>
+          <span class="tag">IAM</span><span class="tag">Azure</span><span class="tag">Oracle Cloud</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-label">Tools &amp; Additional</div>
+        <div class="skill-tags">
+          <span class="tag">Git</span><span class="tag">Docker</span><span class="tag">CI/CD</span>
+          <span class="tag">Salesforce</span><span class="tag">OpenCV</span>
+          <span class="tag">Machine Learning</span><span class="tag">Agile</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-header reveal">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Exper<em>ience</em></h2>
+    </div>
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-period">Feb 2025 — Jun 2025</div>
+        <div class="exp-company">Ethnus</div>
+        <div class="exp-role">Salesforce Trainee</div>
+      </div>
+      <div class="exp-body">
+        <ul class="exp-points">
+          <li>Completed comprehensive Salesforce training in Apex, Lightning Web Components, and CRM architecture — developing custom applications and implementing business logic for enterprise scenarios.</li>
+          <li>Built RESTful API integrations connecting Salesforce with external systems, demonstrating proficiency in web services and data synchronisation at enterprise scale.</li>
+          <li>Designed database schemas, custom objects, and workflow automation following Agile methodologies and Salesforce security best practices.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-header reveal">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Se<em>lected Work</em></h2>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card reveal">
+        <div class="proj-num">01</div>
+        <h3 class="proj-title">Medicine Recommendation System</h3>
+        <div class="proj-stack">Python · Flask · REST API · ML · scikit-learn</div>
+        <p class="proj-desc">RESTful API healthcare application processing 10,000+ records with 85%+ prediction accuracy using optimised ML algorithms and MVC architecture — over 5,000 lines of production code.</p>
+      </div>
+      <div class="project-card reveal">
+        <div class="proj-num">02</div>
+        <h3 class="proj-title">BEATWELL — Cloud Fitness Platform</h3>
+        <div class="proj-stack">Node.js · AWS EC2/S3/IAM · CI/CD · Express.js</div>
+        <p class="proj-desc">Scalable microservices on AWS achieving sub-2-second response times and 99.9% uptime. Automated CI/CD pipeline reduced deployment time by 60%.</p>
+      </div>
+      <div class="project-card reveal">
+        <div class="proj-num">03</div>
+        <h3 class="proj-title">AtenV — Attendance Automation</h3>
+        <div class="proj-stack">Python · OpenCV · SQLite · Computer Vision</div>
+        <p class="proj-desc">Computer vision attendance system reducing manual processing by 80% with 95% accuracy. Algorithm optimisation improved overall performance by 40% through efficient memory management.</p>
+      </div>
+      <div class="project-card reveal">
+        <div class="proj-num">04</div>
+        <h3 class="proj-title">Resume Scanner — AI Recruitment Assistant</h3>
+        <div class="proj-stack">Python · NLP · PDF Parsing · Chatbot · Email Automation</div>
+        <p class="proj-desc">Automated candidate screening system that extracts and analyses text from PDF resumes using NLP techniques. Matches candidate skills to job requirements via keyword evaluation, integrates automated email notifications and chatbot interaction to streamline recruiter-candidate communication — reducing manual effort and improving shortlisting accuracy.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section id="certifications">
+    <div class="section-header reveal">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Certifi<em>cations</em></h2>
+    </div>
+    <div class="cert-list">
+      <div class="cert-item reveal">
+        <div class="cert-dot"></div>
+        <div class="cert-name">AWS Certified Cloud Practitioner</div>
+      </div>
+      <div class="cert-item reveal">
+        <div class="cert-dot"></div>
+        <div class="cert-name">Salesforce Certified Developer</div>
+      </div>
+      <div class="cert-item reveal">
+        <div class="cert-dot"></div>
+        <div class="cert-name">Salesforce Apex Specialist Superbadge</div>
+      </div>
+      <div class="cert-item reveal">
+        <div class="cert-dot"></div>
+        <div class="cert-name">SQL on Oracle Cloud</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-big reveal">Let's build<br>something <em>together.</em></div>
+    <div class="contact-links reveal">
+      <div class="contact-link">
+        <span>Email</span>
+        <a href="mailto:riyasinghlko43@gmail.com">riyasinghlko43@gmail.com</a>
+      </div>
+      <div class="contact-link">
+        <span>Phone</span>
+        <a href="tel:+918299378724">+91 82993 78724</a>
+      </div>
+      <div class="contact-link">
+        <span>LinkedIn</span>
+        <a href="https://linkedin.com/in/riya-singh-795377250" target="_blank">riya-singh-795377250</a>
+      </div>
+      <div class="contact-link">
+        <span>GitHub</span>
+        <a href="https://github.com/riyasinghlko43" target="_blank">riyasinghlko43</a>
+      </div>
+    </div>
+    <div class="footer-bar reveal">
+      <span>© 2026 Riya Singh</span>
+      <span>VIT — Computer Science Engineering</span>
+    </div>
+  </section>
+</main>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
